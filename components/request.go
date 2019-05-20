@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -60,8 +59,6 @@ func sendRequest() {
 	if err != nil {
 		log.Println("something went wrong")
 	}
-	php, _ := ioutil.ReadAll(response.Body)
-	log.Printf("%s", php)
 	//这一步必须要做，不然golang会缓存请求
 	//@see https://stackoverflow.com/questions/33238518/what-could-happen-if-i-dont-close-response-body-in-golang
 	defer response.Body.Close()

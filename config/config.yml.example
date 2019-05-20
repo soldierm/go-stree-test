@@ -2,8 +2,8 @@ api_address:
   protocol: http
   host: localhost
   port: 80
-  path: /
+  path: /test/stress-test/server.php
 method: get
 test:
   times: 1000
-  threads: 20
+  threads: 10

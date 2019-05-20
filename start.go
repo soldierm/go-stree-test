@@ -17,6 +17,8 @@ func main() {
 	times := components.GlobalConfig.Test.Times / components.GlobalConfig.Test.Threads
 
 	now := time.Now().UnixNano()
+	log.Printf("%d个线程请求开始..", components.GlobalConfig.Test.Threads)
+
 	for i := 0; i < components.GlobalConfig.Test.Threads; i++ {
 		wg.Add(1)
 		go groupRequest(times)

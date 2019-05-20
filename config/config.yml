@@ -1,0 +1,9 @@
+api_address:
+  protocol: http
+  host: localhost
+  port: 80
+  path: /
+method: get
+test:
+  times: 1000
+  threads: 20

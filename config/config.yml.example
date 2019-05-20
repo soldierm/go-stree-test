@@ -2,8 +2,21 @@ api_address:
   protocol: http
   host: localhost
   port: 80
-  path: /test/stress-test/server.php
-method: get
+  path: /
+#  query:
+#    id: 1
+method:
+  type: post
+  form_body:
+    username:
+      - zy
+    password:
+      - 123456
+  content_type: application/x-www-form-urlencoded
+#  json_body:
+#    username: zy
+#    password: 123456
+#  content_type: application/json
 test:
-  times: 1000
-  threads: 10
+  times: 1
+  threads: 1

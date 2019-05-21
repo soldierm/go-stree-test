@@ -15,24 +15,24 @@ const (
 )
 
 type Config struct {
-	Address Remote `yaml:"api_address"`
-	Method  Method `yaml:"method"`
-	Test    Test   `yaml:"test"`
+	Address Remote `yaml:"api_address"json:"address"`
+	Method  Method `yaml:"method"json:"method"`
+	Test    Test   `yaml:"test"json:"test"`
 }
 
 type Remote struct {
-	Protocol string            `yaml:"protocol"`
-	Host     string            `yaml:"host"`
-	Port     int               `yaml:"port"`
-	Path     string            `yaml:"path"`
-	Query    map[string]string `yaml:"query"`
+	Protocol string            `yaml:"protocol"json:"protocol"`
+	Host     string            `yaml:"host"json:"host"`
+	Port     int               `yaml:"port"json:"port"`
+	Path     string            `yaml:"path"json:"path"`
+	Query    map[string]string `yaml:"query"json:"query"`
 }
 
 type Method struct {
-	Type        string                 `yaml:"type"`
-	FormBody    url2.Values            `yaml:"form_body"`
-	JsonBody    map[string]interface{} `yaml:"json_body"`
-	ContentType string                 `yaml:"content_type"`
+	Type        string                 `yaml:"type"json:"type"`
+	FormBody    url2.Values            `yaml:"form_body"json:"form_body"`
+	JsonBody    map[string]interface{} `yaml:"json_body"json:"json_body"`
+	ContentType string                 `yaml:"content_type"json:"content_type"`
 }
 
 type Test struct {

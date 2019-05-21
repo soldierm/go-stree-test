@@ -1,0 +1,106 @@
+{{define "index"}}
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>添加商品</title>
+        <link href="/assets/css/bootstrap.css" rel="stylesheet">
+        <link href="/assets/css/site.css" rel="stylesheet">
+    </head>
+    <body>
+
+    <div class="wrap">
+        <nav id="w1" class="navbar-inverse navbar-fixed-top navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w1-collapse"><span
+                                class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span></button>
+                    <a class="navbar-brand" href="/">XX在线压测工具</a>
+                </div>
+                <div id="w1-collapse" class="collapse navbar-collapse">
+                    <ul id="w2" class="navbar-nav navbar-right nav">
+                        <li><a href="/">压测</a></li>
+                        <li><a href="/">日志</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="goods-create">
+                <div class="goods-form">
+                    <form id="w0" action="/add" method="post">
+                        <div class="form-group" id="protocol">
+                            <label class="control-label" for="protocol">协议</label>
+                            <select id="protocol" class="form-control" name="protocol">
+                                <option value="http">http</option>
+                                <option value="https">https</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="host">
+                            <label class="control-label" for="host">主机</label>
+                            <input type="text" id="host" class="form-control" name="host" required="required">
+                        </div>
+                        <div class="form-group" id="port">
+                            <label class="control-label" for="port">端口</label>
+                            <input type="text" id="port" class="form-control" name="port" required="required">
+                        </div>
+                        <div class="form-group" id="path">
+                            <label class="control-label" for="path">路由</label>
+                            <input type="text" id="path" class="form-control" name="path" required="required">
+                        </div>
+                        <div class="form-group" id="query">
+                            <label class="control-label" for="query">Query</label>
+                            <input type="text" id="query" class="form-control" name="query" required="required">
+                        </div>
+                        <div class="form-group" id="method">
+                            <label class="control-label" for="method">请求方式</label>
+                            <select id="method" class="form-control" name="method">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: none" id="content_type">
+                            <label class="control-label" for="content_type">ContentType</label>
+                            <select id="content_type" class="form-control" name="content_type">
+                                <option value="application/json">application/json</option>
+                                <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: none" id="body">
+                            <label class="control-label" for="body">Body</label>
+                            <textarea id="body" class="form-control" name="body" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block">开 始</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-right">&copy; XX在线压测工具 2019</p>
+        </div>
+    </footer>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script>
+        $("select#method").on("change", function () {
+            let show = $(this).val() === 'POST' ? "block" : "none";
+            $("div#content_type").css("display", show);
+            $("div#body").css("display", show);
+        })
+    </script>
+    </body>
+    </html>
+{{end}}

@@ -3,6 +3,7 @@ package components
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -17,7 +18,8 @@ var url string
 var handle func() (resp *http.Response, err error)
 
 //初始化操作
-func init() {
+func InitRequest() {
+	InitConfig()
 	switch GlobalConfig.Method.Type {
 	case "get":
 		handle = get
@@ -31,7 +33,8 @@ func Start() {
 	url = GlobalConfig.Address.UriToString()
 	times := GlobalConfig.Test.Times / GlobalConfig.Test.Threads
 	now := time.Now().UnixNano()
-	log.Printf("%d个线程请求开始..", GlobalConfig.Test.Threads)
+	output(fmt.Sprintf("请求地址：%s..", url))
+	output(fmt.Sprintf("%d个线程请求开始..", GlobalConfig.Test.Threads))
 
 	for i := 0; i < GlobalConfig.Test.Threads; i++ {
 		wg.Add(1)
@@ -40,8 +43,8 @@ func Start() {
 
 	wg.Wait()
 	end := time.Now().UnixNano()
-	log.Printf("总共请求%d次", total)
-	log.Printf("总共耗时%dns", end-now)
+	output(fmt.Sprintf("总共请求%d次..", total))
+	output(fmt.Sprintf("总共耗时%dns..", end-now))
 }
 
 //循环发送请求
@@ -57,7 +60,7 @@ func groupRequest(times int) {
 func sendRequest() {
 	response, err := handle()
 	if err != nil {
-		log.Println("something went wrong")
+		output("something went wrong")
 	}
 	//这一步必须要做，不然golang会缓存请求
 	//@see https://stackoverflow.com/questions/33238518/what-could-happen-if-i-dont-close-response-body-in-golang
@@ -81,4 +84,10 @@ func post() (resp *http.Response, err error) {
 		body = strings.NewReader(GlobalConfig.Method.FormBody.Encode())
 	}
 	return http.Post(url, contentType, body)
+}
+
+func output(data string) {
+	if isTerminal() {
+		log.Println(data)
+	}
 }

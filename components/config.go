@@ -3,6 +3,7 @@ package components
 import (
 	"log"
 	url2 "net/url"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -15,24 +16,24 @@ const (
 )
 
 type Config struct {
-	Address Remote `yaml:"api_address"json:"address"`
-	Method  Method `yaml:"method"json:"method"`
-	Test    Test   `yaml:"test"json:"test"`
+	Address *Remote `yaml:"api_address"`
+	Method  *Method `yaml:"method"`
+	Test    *Test   `yaml:"test"`
 }
 
 type Remote struct {
-	Protocol string            `yaml:"protocol"json:"protocol"`
-	Host     string            `yaml:"host"json:"host"`
-	Port     int               `yaml:"port"json:"port"`
-	Path     string            `yaml:"path"json:"path"`
-	Query    map[string]string `yaml:"query"json:"query"`
+	Protocol string            `yaml:"protocol"`
+	Host     string            `yaml:"host"`
+	Port     int               `yaml:"port"`
+	Path     string            `yaml:"path"`
+	Query    map[string]string `yaml:"query"`
 }
 
 type Method struct {
-	Type        string                 `yaml:"type"json:"type"`
-	FormBody    url2.Values            `yaml:"form_body"json:"form_body"`
-	JsonBody    map[string]interface{} `yaml:"json_body"json:"json_body"`
-	ContentType string                 `yaml:"content_type"json:"content_type"`
+	Type        string                 `yaml:"type"`
+	FormBody    url2.Values            `yaml:"form_body"`
+	JsonBody    map[string]interface{} `yaml:"json_body"`
+	ContentType string                 `yaml:"content_type"`
 }
 
 type Test struct {
@@ -47,9 +48,11 @@ var SupportMethods = []string{
 }
 
 //初始化操作
-func init() {
-	parseYml()
-	validate()
+func InitConfig() {
+	if isTerminal() {
+		parseYml()
+		validate()
+	}
 }
 
 //解析yaml文件，读取配置
@@ -92,4 +95,8 @@ func (remote *Remote) UriToString() string {
 		query = strings.Trim(query, "&")
 	}
 	return remote.Protocol + "://" + remote.Host + port + remote.Path + query
+}
+
+func isTerminal() bool {
+	return os.Getenv("CURRENT_ENV") == "terminal"
 }

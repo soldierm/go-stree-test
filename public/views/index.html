@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>添加商品</title>
+        <title>开始压测</title>
         <link href="/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/assets/css/site.css" rel="stylesheet">
     </head>
@@ -76,6 +76,14 @@
                         <div class="form-group" style="display: none" id="body">
                             <label class="control-label" for="body">Body</label>
                             <textarea id="body" class="form-control" name="body" rows="6"></textarea>
+                        </div>
+                        <div class="form-group" id="threads">
+                            <label class="control-label" for="threads">线程数</label>
+                            <input type="text" id="threads" class="form-control" name="threads" required="required">
+                        </div>
+                        <div class="form-group" id="times">
+                            <label class="control-label" for="times">请求数</label>
+                            <input type="text" id="times" class="form-control" name="times" required="required">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-block">开 始</button>

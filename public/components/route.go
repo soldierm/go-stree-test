@@ -31,6 +31,8 @@ func index(c echo.Context) error {
 
 func add(c echo.Context) error {
 	registerGlobalConfig(c)
+	components.InitRequest()
+	components.Start()
 	return nil
 }
 
@@ -63,6 +65,8 @@ func registerGlobalConfig(c echo.Context) {
 	components.GlobalConfig.Address = &remote
 	components.GlobalConfig.Method = &method
 	components.GlobalConfig.Test = &test
+
+	components.InitConfig()
 }
 
 //解析query参数
@@ -90,25 +94,71 @@ func parseJsonBody(c echo.Context) (jsonBody map[string]interface{}) {
 	originBody := strings.Split(c.FormValue("body"), "\n")
 	for _, v := range originBody {
 		parse := strings.Split(v, ":")
-		jsonBody[parse[0]] = convertDataType(parse[2], parse[1])
+		jsonBody[parse[0]] = convertJsonDataType(parse[2], parse[1])
 	}
 	return
 }
 
 func parseFormBody(c echo.Context) (urlValues url.Values) {
+	urlValues = make(url.Values)
+	if c.FormValue("body") == "" {
+		return
+	}
+	originBody := strings.Split(c.FormValue("body"), "\n")
+	for _, v := range originBody {
+		parse := strings.Split(v, ":")
+		urlValues[parse[0]] = convertFormDataType(parse[2], parse[1])
+	}
 	return
 }
 
-func convertDataType(data string, dataType string) (afterConvert string) {
+func convertJsonDataType(data string, dataType string) (afterConvert interface{}) {
 	afterConvert = data
 	support := false
-	for _, suppotType := range SupportDataType {
-		if dataType == suppotType {
+	for _, supportType := range SupportDataType {
+		if dataType == supportType {
 			support = true
 		}
 	}
 	if support == false {
 		return
+	}
+	switch dataType {
+	case "int":
+		afterConvert, _ = strconv.Atoi(data)
+		break
+	case "string":
+		afterConvert = string(data)
+		break
+	case "array":
+		afterConvert = strings.Split(data, ",")
+		break
+	default:
+		break
+	}
+	return
+}
+
+func convertFormDataType(data string, dataType string) (afterConvert []string) {
+	support := false
+	for _, supportType := range SupportDataType {
+		if dataType == supportType {
+			support = true
+		}
+	}
+	if support == false {
+		return
+	}
+	switch dataType {
+	case "int":
+	case "string":
+		afterConvert = []string{data}
+		break
+	case "array":
+		afterConvert = strings.Split(data, ",")
+		break
+	default:
+		break
 	}
 	return
 }

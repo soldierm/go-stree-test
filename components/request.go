@@ -17,6 +17,8 @@ var total int
 var url string
 var handle func() (resp *http.Response, err error)
 
+//var mutex sync.RWMutex
+
 //初始化操作
 func InitRequest() {
 	InitConfig()
@@ -87,7 +89,17 @@ func post() (resp *http.Response, err error) {
 }
 
 func output(data string) {
-	if isTerminal() {
-		log.Println(data)
-	}
+	/* 如果是命令行，直接从terminal输出 */
+	//if isTerminal() {
+	log.Println(data)
+	//} else { /* 否则记录到log目录 */
+	//	year, month, day := time.Now().Date()
+	//	fileName, _ := filepath.Abs("./log/" + strconv.Itoa(year) + "-" + strconv.Itoa(int(month)) + "-" + strconv.Itoa(day) + ".log")
+	//	mutex.RLock()
+	//	defer mutex.RUnlock()
+	//	logFile, _ := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_SYNC, 0777)
+	//	defer logFile.Close()
+	//	debugLog := log.New(logFile, "", log.LstdFlags)
+	//	debugLog.Println(data)
+	//}
 }

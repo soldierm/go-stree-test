@@ -51,8 +51,8 @@ var SupportMethods = []string{
 func InitConfig() {
 	if isTerminal() {
 		parseYml()
-		validate()
 	}
+	validate()
 }
 
 //解析yaml文件，读取配置

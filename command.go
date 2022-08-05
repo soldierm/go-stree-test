@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
-	os.Setenv("CURRENT_ENV", "terminal")
+	err := os.Setenv("CURRENT_ENV", "terminal")
+	if err != nil {
+		return
+	}
 	components.InitRequest()
 	components.Start()
 }

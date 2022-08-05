@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	DEFAULT_THREADS    = 20     /* 默认线程数 */
-	DEFAULT_PROTOCOL   = "http" /* 默认http请求 */
-	DEFAULT_HTTP_PORT  = 80     /* http默认80端口 */
-	DEFAULT_HTTPS_PORT = 443    /* https默认443端口 */
+	DefaultThreads   = 20     /* 默认线程数 */
+	DefaultProtocol  = "http" /* 默认http请求 */
+	DefaultHttpPort  = 80     /* http默认80端口 */
+	DefaultHttpsPort = 443    /* https默认443端口 */
 )
 
 type Config struct {
@@ -47,7 +47,7 @@ var SupportMethods = []string{
 	"post",
 }
 
-//初始化操作
+// InitConfig 初始化操作
 func InitConfig() {
 	if isTerminal() {
 		parseYml()
@@ -55,13 +55,13 @@ func InitConfig() {
 	validate()
 }
 
-//解析yaml文件，读取配置
+// 解析yaml文件，读取配置
 func parseYml() {
 	configFile, _ := filepath.Abs("./config/config.yml")
 	GlobalConfig, _ = ParseYamlFromFile(configFile)
 }
 
-//验证配置信息
+// 验证配置信息
 func validate() {
 	method := strings.ToLower(GlobalConfig.Method.Type)
 	support := false
@@ -74,16 +74,16 @@ func validate() {
 		log.Fatalf("不支持的请求方式：%s", method)
 	}
 	if GlobalConfig.Test.Threads <= 0 {
-		GlobalConfig.Test.Threads = DEFAULT_THREADS
+		GlobalConfig.Test.Threads = DefaultThreads
 	}
 }
 
-//url转成string
+// UriToString url转成string
 func (remote *Remote) UriToString() string {
 	port := string(remote.Port)
-	if remote.Protocol == DEFAULT_PROTOCOL && remote.Port == DEFAULT_HTTP_PORT {
+	if remote.Protocol == DefaultProtocol && remote.Port == DefaultHttpPort {
 		port = ""
-	} else if remote.Protocol == "https" && remote.Port == DEFAULT_HTTPS_PORT {
+	} else if remote.Protocol == "https" && remote.Port == DefaultHttpsPort {
 		port = ""
 	}
 	query := ""

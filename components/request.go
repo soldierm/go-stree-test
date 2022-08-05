@@ -19,7 +19,7 @@ var handle func() (resp *http.Response, err error)
 
 //var mutex sync.RWMutex
 
-//初始化操作
+// InitRequest 初始化操作
 func InitRequest() {
 	InitConfig()
 	switch GlobalConfig.Method.Type {
@@ -30,7 +30,7 @@ func InitRequest() {
 	}
 }
 
-//开始跑喽
+// Start 开始跑喽
 func Start() {
 	url = GlobalConfig.Address.UriToString()
 	times := GlobalConfig.Test.Times / GlobalConfig.Test.Threads
@@ -49,7 +49,7 @@ func Start() {
 	output(fmt.Sprintf("总共耗时%dns..", end-now))
 }
 
-//循环发送请求
+// 循环发送请求
 func groupRequest(times int) {
 	for i := 0; i < times; i++ {
 		sendRequest()
@@ -58,7 +58,7 @@ func groupRequest(times int) {
 	defer wg.Done()
 }
 
-//发送请求
+// 发送请求
 func sendRequest() {
 	response, err := handle()
 	if err != nil {
@@ -69,12 +69,12 @@ func sendRequest() {
 	defer response.Body.Close()
 }
 
-//普通get请求
+// 普通get请求
 func get() (resp *http.Response, err error) {
 	return http.Get(url)
 }
 
-//普通post请求，需要加上body内容
+// 普通post请求，需要加上body内容
 func post() (resp *http.Response, err error) {
 	contentType := GlobalConfig.Method.ContentType
 	var body io.Reader

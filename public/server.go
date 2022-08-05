@@ -7,9 +7,12 @@ import (
 )
 
 func main() {
-	os.Setenv("CURRENT_ENV", "web-server")
+	err := os.Setenv("CURRENT_ENV", "web-server")
+	if err != nil {
+		return
+	}
 	e := echo.New()
-	//components.RegisterMiddleware(e)
+	components.RegisterMiddleware(e)
 	components.RegisterStatic(e)
 	components.RegisterRoute(e)
 	e.Logger.Fatal(e.Start(":1323"))
